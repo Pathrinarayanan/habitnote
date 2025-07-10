@@ -25,11 +25,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        viewmodel.getHabits()
         setContent {
             HabitNoteTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().padding(top =30.dp)) { innerPadding ->
                     val controller = rememberNavController()
-                    NavHost(controller, startDestination = "home"){
+                    NavHost(controller, startDestination = "home", modifier = Modifier.padding(innerPadding)){
                         composable ("home"){
                             HomeScreen(controller,viewmodel)
                         }

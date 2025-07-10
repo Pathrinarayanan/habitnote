@@ -106,7 +106,7 @@ fun EditScreen(controller: NavHostController, viewmodel: MainViewModel, id: Int)
         }
     ){
         Column(Modifier.padding(it).fillMaxSize()
-            .background(viewmodel.addColor)
+            .background(data?.color ?:Color.White)
             .padding(horizontal = 20.dp, vertical = 40.dp)
         ) {
             OutlinedTextField(

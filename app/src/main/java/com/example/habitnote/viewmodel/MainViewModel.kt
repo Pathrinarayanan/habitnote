@@ -6,23 +6,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.habitnote.MainApplication
 import com.example.habitnote.modal.Habit
 
 class MainViewModel : ViewModel() {
     var addColor : Color  by mutableStateOf(Color.White)
     var data : MutableState<List<Habit>> = mutableStateOf(emptyList())
 
+    private var habitDao = MainApplication.habitDB.userDao()
+
+    fun getHabits(): List<Habit>{
+        val items = habitDao.getAll()
+        data.value =items
+        return items
+    }
+
     fun addHabit(habit : Habit){
-        data.value =  listOf(habit)+ data.value
+        habitDao.addHabit(habit)
+        data.value =getHabits()
     }
     fun editHabit(habit : Habit){
-        data.value =  data.value.map {
-            if(it.id == habit.id) habit else it
-        }
+        habitDao.updateHabit(habit.title, habit.subTitle, habit.id)
+        data.value = getHabits()
     }
     fun deleteHabit(id : Int){
-        data.value = data.value.filterNot {
-            it.id == id
-        }
+        habitDao.deleteHabit(id)
+        data.value = getHabits()
     }
 }
